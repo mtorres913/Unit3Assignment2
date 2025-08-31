@@ -104,4 +104,18 @@ public String getPath() {
     return "";
 }
 
+public static void main(String[] args) {
+    CaveExplorer cave1 = new CaveExplorer();
+    System.out.println("Cave 1:");
+    System.out.println(cave1.toString());
+    System.out.println("Solved: " + cave1.solve());
+    System.out.println("Path: " + cave1.getPath());
+
+    CaveExplorer cave2 = new CaveExplorer("cave2.txt");
+    System.out.println("\nCave 2:");
+    System.out.println(cave2.toString());
+    System.out.println("Solved: " + cave2.solve());
+    System.out.println("Path: " + cave2.getPath());
+}
+
 }
