@@ -1,3 +1,7 @@
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
+
 public class CaveExplorer {
     private char[][] cave;
     private int startRow, startCol;
@@ -14,6 +18,29 @@ public class CaveExplorer {
         startCol = 3;
     }
 
+    public CaveExplorer(String filename) {
+    try {
+        Scanner sc = new Scanner(new File(filename));
+        int rows = sc.nextInt();
+        int cols = sc.nextInt();
+        sc.nextLine(); // consume newline
+
+        cave = new char[rows][cols];
+        for (int i = 0; i < rows; i++) {
+            String line = sc.nextLine();
+            for (int j = 0; j < cols; j++) {
+                cave[i][j] = line.charAt(j);
+                if (cave[i][j] == 'S') {
+                    startRow = i;
+                    startCol = j;
+                }
+            }
+        }
+        sc.close();
+    } catch (FileNotFoundException e) {
+        System.out.println("File not found: " + filename);
+    }
+}
     public String toString() {
     StringBuilder sb = new StringBuilder();
     for (char[] row : cave) {
