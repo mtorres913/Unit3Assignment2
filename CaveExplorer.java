@@ -49,4 +49,32 @@ private boolean isValid(int r, int c, boolean[][] visited) {
            !visited[r][c] && (cave[r][c] == '.' || cave[r][c] == 'M');
 }
 
+public String getPath() {
+    boolean[][] visited = new boolean[cave.length][cave[0].length];
+    int row = startRow;
+    int col = startCol;
+    StringBuilder path = new StringBuilder();
+
+    while (true) {
+        visited[row][col] = true;
+        if (cave[row][col] == 'M') return path.toString();
+
+        if (isValid(row, col - 1, visited)) {
+            col--;
+            path.append('w');
+        } else if (isValid(row, col + 1, visited)) {
+            col++;
+            path.append('e');
+        } else if (isValid(row - 1, col, visited)) {
+            row--;
+            path.append('n');
+        } else if (isValid(row + 1, col, visited)) {
+            row++;
+            path.append('s');
+        } else break;
+    }
+
+    return "";
+}
+
 }
