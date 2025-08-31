@@ -111,7 +111,7 @@ public static void main(String[] args) {
     System.out.println("Solved: " + cave1.solve());
     System.out.println("Path: " + cave1.getPath());
 
-    CaveExplorer cave2 = new CaveExplorer("cave2.txt");
+    CaveExplorer cave2 = new CaveExplorer("cave.txt");
     System.out.println("\nCave 2:");
     System.out.println(cave2.toString());
     System.out.println("Solved: " + cave2.solve());
