@@ -13,4 +13,16 @@ public class CaveExplorer {
         startRow = 1;
         startCol = 3;
     }
+
+    public String toString() {
+    StringBuilder sb = new StringBuilder();
+    for (char[] row : cave) {
+        for (char cell : row) {
+            sb.append(cell);
+        }
+        sb.append('\n');
+    }
+    return sb.toString();
+}
+
 }
