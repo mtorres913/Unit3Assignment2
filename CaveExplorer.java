@@ -1,6 +1,7 @@
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
+import java.util.Stack;
 
 public class CaveExplorer {
     private char[][] cave;
@@ -53,23 +54,29 @@ public class CaveExplorer {
 }
 public boolean solve() {
     boolean[][] visited = new boolean[cave.length][cave[0].length];
-    int row = startRow;
-    int col = startCol;
+    Stack<int[]> stack = new Stack<>();
+    stack.push(new int[] {startRow, startCol});
 
-    while (true) {
+    while (!stack.isEmpty()) {
+        int[] current = stack.pop();
+        int row = current[0];
+        int col = current[1];
+
+        if (!isValid(row, col, visited)) continue;
         visited[row][col] = true;
+
         if (cave[row][col] == 'M') return true;
 
-        // Try moving in one of four directions (only one will work)
-        if (isValid(row, col - 1, visited)) col--; // West
-        else if (isValid(row, col + 1, visited)) col++; // East
-        else if (isValid(row - 1, col, visited)) row--; // North
-        else if (isValid(row + 1, col, visited)) row++; // South
-        else break; // No valid moves
+        // Push neighbors in reverse priority (so West is processed first)
+        stack.push(new int[] {row + 1, col}); // South
+        stack.push(new int[] {row - 1, col}); // North
+        stack.push(new int[] {row, col + 1}); // East
+        stack.push(new int[] {row, col - 1}); // West
     }
 
     return false;
 }
+
 
 private boolean isValid(int r, int c, boolean[][] visited) {
     return r >= 0 && r < cave.length && c >= 0 && c < cave[0].length &&
