@@ -80,36 +80,47 @@ public boolean solve() {
 
 private boolean isValid(int r, int c, boolean[][] visited) {
     return r >= 0 && r < cave.length && c >= 0 && c < cave[0].length &&
-           !visited[r][c] && (cave[r][c] == '.' || cave[r][c] == 'M');
+           !visited[r][c] && (cave[r][c] == '.' || cave[r][c] == 'M' || cave[r][c] == 'S');
 }
 
 public String getPath() {
     boolean[][] visited = new boolean[cave.length][cave[0].length];
-    int row = startRow;
-    int col = startCol;
     StringBuilder path = new StringBuilder();
-
-    while (true) {
-        visited[row][col] = true;
-        if (cave[row][col] == 'M') return path.toString();
-
-        if (isValid(row, col - 1, visited)) {
-            col--;
-            path.append('w');
-        } else if (isValid(row, col + 1, visited)) {
-            col++;
-            path.append('e');
-        } else if (isValid(row - 1, col, visited)) {
-            row--;
-            path.append('n');
-        } else if (isValid(row + 1, col, visited)) {
-            row++;
-            path.append('s');
-        } else break;
+    if (dfs(startRow, startCol, visited, path)) {
+        return path.toString();
     }
-
-    return "";
+    return ""; // No path found
 }
+
+private boolean dfs(int row, int col, boolean[][] visited, StringBuilder path) {
+    if (!isValid(row, col, visited)) return false;
+    if (cave[row][col] == 'M') return true;
+
+    visited[row][col] = true;
+
+    // Try West
+    path.append('w');
+    if (dfs(row, col - 1, visited, path)) return true;
+    path.deleteCharAt(path.length() - 1);
+
+    // Try East
+    path.append('e');
+    if (dfs(row, col + 1, visited, path)) return true;
+    path.deleteCharAt(path.length() - 1);
+
+    // Try North
+    path.append('n');
+    if (dfs(row - 1, col, visited, path)) return true;
+    path.deleteCharAt(path.length() - 1);
+
+    // Try South
+    path.append('s');
+    if (dfs(row + 1, col, visited, path)) return true;
+    path.deleteCharAt(path.length() - 1);
+
+    return false; // Dead end
+}
+
 
 public static void main(String[] args) {
     CaveExplorer cave1 = new CaveExplorer();
